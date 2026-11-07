@@ -1,0 +1,144 @@
+{
+ "_comment": "Example covering every layout. Literature slides use only the published paper (Beut J, et al. Aesthetic Plast Surg 2026, doi:10.1007/s00266-026-06119-0) — run extract_paper.py on it to get paper/figs/*. The patient case is FICTIONAL: names, dates, scores and doses are placeholders. Replace everything with the user's real data; never keep example numbers.",
+ "theme": "gallery",
+ "meta": {
+  "footer": "本资料仅供医疗专业人士学术交流 · 个案结果不代表普遍疗效 · 产品使用请遵循获批说明书",
+  "photo_credit": "Dr XXX",
+  "page_numbers": true
+ },
+ "slides": [
+  {"layout": "cover", "title": "融合技术矫正泪沟", "title_en": "The Blending Technique: A New Approach for Tear Trough Correction",
+   "subtitle": "文献解读 × 病例分享", "presenter": "XX 医生 · XX 医疗美容医院", "date": "2026-11"},
+
+  {"layout": "compare", "title": "示例病例：治疗前与治疗后 6 个月", "subtitle": "患者 A · 女 · 48 岁 · 泪沟 / 睑颊交界凹陷（示例）",
+   "pairs": [{"view": "正面", "before": "photos/front_D0.jpg", "after": "photos/front_M6.jpg"},
+             {"view": "45° 斜位", "before": "photos/oblique_D0.jpg", "after": "photos/oblique_M6.jpg"}],
+   "cite": "示例病例 · 照片使用已获患者书面同意（请替换为真实声明）"},
+
+  {"layout": "image_text", "title": "为什么泪沟填充会“失手”",
+   "image": {"path": "paper/figs/p08_1.png", "fit": "contain"}, "caption": "原文图 10（outie 型，73 岁）：直接注射泪沟后出现 sausage-like deformity",
+   "bullets": ["原文把泪沟视为最能体现面部衰老的区域之一。",
+               "直接向泪沟注射填充剂，部分患者会出现条状隆起（原文称 sausage-like deformity）。",
+               "作者认为关键在于眶隔起点（AM）与韧带的位置关系，并据此给患者分型。"],
+   "cite": "Beut J, et al. Aesthetic Plast Surg 2026. doi:10.1007/s00266-026-06119-0"},
+
+  {"layout": "chapter", "no": "01", "title": "文献解读", "title_en": "The Paper"},
+
+  {"layout": "bullets", "title": "两步法：先支撑，再融合",
+   "bullets": [{"text": "**第一步 支撑**：钝针深层注射 DMCFP（深层内侧颊脂肪垫）区域，恢复中面部容量", "sub": "22G 50 mm 钝针；进针点：瞳孔中线与鼻翼基底—耳屏水平线的交点"},
+               {"text": "**第二步 融合**：同一进针点，钝针垂直于沟线上行，产品置于眶隔前间隙并向下延伸", "sub": "25G 50 mm 钝针；沉积形态被描述为“彗星”状"},
+               {"text": "**按层选产品**：泪沟用较低黏弹性、较低交联度的 HA，中面部用支撑力更强的 HA"}],
+   "cite": "Beut J, et al. Aesthetic Plast Surg 2026（方法部分）"},
+
+  {"layout": "full_image", "title": "相关间隙：眶隔前、颧前、上颌前", "subtitle": "原文图 5",
+   "image": {"path": "paper/figs/p05_1.png", "fit": "contain"},
+   "cite": "Beut J, et al. Aesthetic Plast Surg 2026（图 5）"},
+
+  {"layout": "table", "title": "入组评估：Hirmand 泪沟分型", "subtitle": "原文采用 Hirmand 2010 分型；本研究无 I 型患者",
+   "columns": ["分型", "表现", "本研究例数"], "col_widths": [1, 4.2, 1.4],
+   "rows": [["I 型", "容量缺失局限于泪沟内侧，可伴上内侧面颊轻度变平", "0"],
+            ["II 型", "眶周内外侧均有容量缺失，内侧面颊中度不足，中央面颊变平", "29（76.3%）"],
+            ["III 型", "沿眶缘由内至外的环形凹陷", "9（23.7%）"]],
+   "highlight_col": 2,
+   "cite": "Hirmand H. Plast Reconstr Surg 2010;125:699–708 · Beut J, et al. Aesthetic Plast Surg 2026"},
+
+  {"layout": "kpi", "title": "原文结果", "tone": "light",
+   "intro": ["38 例（女 21、男 17），平均 53 岁（31–72），平均随访 10.4 个月（5–22），全部为 innie 型",
+             "疗效：GAIS 五级评分（1 = 非常显著改善 … 5 = 变差）"],
+   "stats": [{"value": "84.2%", "label": "GAIS 1 分（32/38）\n其余 6 例为 2 分"},
+             {"value": "0.35 ml", "label": "单侧泪沟平均用量\n范围 0.2–0.5"},
+             {"value": "0.65 ml", "label": "单侧中面部平均用量\n范围 0.5–2"},
+             {"value": "0", "label": "所监测并发症的发生数"}],
+   "note": "“0”仅针对原文预设的 5 项：感染、水肿持续 >2 周、Tyndall 效应、结节、血管内注射。",
+   "cite": "Beut J, et al. Aesthetic Plast Surg 2026（结果部分）"},
+
+  {"layout": "letter_rows", "title": "研究设计一览", "subtitle": "证据等级 V（作者自评）",
+   "rows": [{"letter": "P", "name": "人群", "text": "38 例 innie 型泪沟畸形，Hirmand II / III 型"},
+            {"letter": "I", "name": "干预", "text": "两步法 HA 注射：DMCFP 支撑 + 眶隔前间隙融合，钝针"},
+            {"letter": "C", "name": "对照", "text": "未设对照", "bold": true},
+            {"letter": "O", "name": "结局", "text": "GAIS 评分；5 项预设并发症"}],
+   "note": "单中心病例系列：适合介绍一种方法，尚不足以比较不同方法的疗效。",
+   "cite": "Beut J, et al. Aesthetic Plast Surg 2026"},
+
+  {"layout": "video", "title": "操作演示", "subtitle": "插入原文补充视频或本院录像",
+   "video": "videos/demo.mp4", "poster": "paper/figs/p08_2.png", "caption": "视频来源：请注明出处与授权",
+   "bullets": ["进针点定位", "第一步：深层支撑", "第二步：泪沟融合"]},
+
+  {"layout": "chapter", "no": "02", "title": "我们的病例", "title_en": "Our Case"},
+
+  {"layout": "patient", "title": "患者 A，48 岁", "subtitle": "初诊：D0（示例）",
+   "images": [{"path": "photos/oblique_D0.jpg", "annotations": [
+                {"type": "ellipse", "x": 0.42, "y": 0.43, "w": 0.18, "h": 0.06, "rotate": -10},
+                {"type": "ellipse", "x": 0.40, "y": 0.56, "w": 0.16, "h": 0.08}]},
+              {"path": "photos/profile_D0.jpg", "annotations": [
+                {"type": "arrow", "x": 0.60, "y": 0.50, "x2": 0.60, "y2": 0.60}]}],
+   "facts": [["主诉", "下睑凹陷、显疲态（示例）"], ["诉求", "自然，不希望“填出来”的感觉"], ["既往治疗", "无注射史"],
+             ["评估", "Hirmand II 型；向上看时 AM 与韧带之间可见间隙（innie）"], ["禁忌筛查", "无（示例）"]]},
+
+  {"layout": "chart", "title": "治疗前后面部评估（示例数值）", "images": ["photos/front_D0.jpg", "photos/front_M6.jpg"],
+   "chart": {"type": "radar", "categories": ["泪沟", "睑颊交界", "中面部容量", "鼻唇沟", "肤质", "对称性"],
+             "series": [{"name": "治疗前", "values": [3, 2, 2, 1, 1, 1]}, {"name": "治疗后 6 个月", "values": [1, 1, 1, 1, 1, 1]}],
+             "max": 3, "min": 0, "step": 1},
+   "scale_legend": "0 无 · 1 轻 · 2 中 · 3 重（医生评估）"},
+
+  {"layout": "plan", "title": "治疗方案：同一进针点完成两步", "subtitle": "D0 · 钝针",
+   "images": [{"path": "photos/front_marking.jpg", "annotations": [
+       {"type": "zone", "x": 0.36, "y": 0.52, "w": 0.10, "h": 0.06, "color": "C9B58E", "alpha": 0.7},
+       {"type": "zone", "x": 0.64, "y": 0.52, "w": 0.10, "h": 0.06, "color": "C9B58E", "alpha": 0.7},
+       {"type": "line", "x": 0.33, "y": 0.62, "x2": 0.38, "y2": 0.44, "color": "8FA3C8", "dashed": true},
+       {"type": "line", "x": 0.67, "y": 0.62, "x2": 0.62, "y2": 0.44, "color": "8FA3C8", "dashed": true},
+       {"type": "dot", "x": 0.33, "y": 0.62, "color": "FFFFFF", "label": "进针点"},
+       {"type": "dot", "x": 0.67, "y": 0.62, "color": "FFFFFF"}]}],
+   "products": [{"name": "HA 填充剂 A（支撑）", "marker_color": "C9B58E", "technique": "22G 50 mm 钝针 · 深层 · 退针线状",
+                 "items": [{"site": "中面部 DMCFP", "dose": "L x.x ml / R x.x ml"}]},
+                {"name": "HA 填充剂 B（融合）", "marker_color": "8FA3C8", "technique": "25G 50 mm 钝针 · 眶隔前间隙 · 垂直于沟线",
+                 "items": [{"site": "泪沟", "dose": "L x.x ml / R x.x ml"}, {"site": "睑颧沟", "dose": "L x.x ml / R x.x ml"}]}],
+   "note": "产品写注册名 + 品牌；如该部位超出所在国家/地区获批适应症，请在此注明。"},
+
+  {"layout": "compare", "title": "动态评估：微笑时睑颊交界平顺", "pairs": [{"before": "photos/smile_D0.jpg", "after": "photos/smile_M6.jpg"}],
+   "bullets": ["静态与微笑照片都应给出（示例）", "描述只写看得到的变化", "记录所有不良事件，包括短暂淤青"]},
+
+  {"layout": "journey", "title": "Patient journey", "subtitle": "正面 · D0 → 12 个月（示例）",
+   "steps": [{"image": "photos/front_D0.jpg", "label": "D0", "note": "基线 · 治疗"},
+             {"image": "photos/front_W2.jpg", "label": "2 周", "note": "复诊"},
+             {"image": "photos/front_M3.jpg", "label": "3 个月", "note": "随访"},
+             {"image": "photos/front_M6.jpg", "label": "6 个月", "note": "随访"},
+             {"image": "photos/front_M12.jpg", "label": "12 个月", "note": "随访", "highlight": true}]},
+
+  {"layout": "timeline", "title": "治疗与随访时间线（示例）",
+   "events": [{"date": "D0", "title": "治疗", "text": ["产品 A：中面部支撑", "产品 B：泪沟融合"]},
+              {"date": "2 周", "title": "复诊", "text": ["GAIS 2", "轻度淤青已消退"]},
+              {"date": "6 个月", "title": "随访", "text": ["GAIS 1", "无结节、无丁达尔"]},
+              {"date": "12 个月", "title": "随访", "text": ["效果维持"], "highlight": true}]},
+
+  {"layout": "two_col", "title": "病例与原文对照",
+   "left": {"heading": "与原文一致", "bullets": ["innie 型，按原文选择两步法", "同一进针点，按层更换产品"]},
+   "right": {"heading": "与原文不同", "bullets": ["补充了微笑照片评估", "随访 12 个月（原文平均 10.4 个月）", "评估者为主诊医生，非盲评（示例）"]}},
+
+  {"layout": "cards", "title": "要点",
+   "items": [{"title": "先分型，再决定注射层次", "body": "原文结论：innie 型适合把产品放进眶隔前间隙；outie 型只做 DMCFP 支撑。"},
+             {"title": "先支撑，后融合", "body": "中面部容量恢复后，泪沟所需用量更少（原文观点）。"},
+             {"title": "证据等级 V", "body": "单中心、无对照的病例系列；本例亦为个案，结论需更高等级研究验证。"}]},
+
+  {"layout": "questions", "title": "讨论",
+   "bullets": ["哪些泪沟患者您会建议手术（如下睑成形）而不是注射？", "钝针穿越韧带的方向与手感，如何在培训中标准化？", "长期随访中，您最关注哪些迟发不良反应？"]},
+
+  {"layout": "statement", "text": "看得见的改善，来自看不见的分层。", "sub": "示例：用一句话收束全场"},
+
+  {"layout": "gallery", "title": "原文图索引", "images": [
+     {"path": "paper/figs/p02_1.png", "label": "图 1 韧带复合体", "fit": "contain"},
+     {"path": "paper/figs/p05_1.png", "label": "图 5 面中部间隙", "fit": "contain"},
+     {"path": "paper/figs/p06_1.png", "label": "图 7 下睑八步检查表", "fit": "contain"},
+     {"path": "paper/figs/p09_2.png", "label": "图 13 融合步骤", "fit": "contain"},
+     {"path": "paper/figs/p10_2.png", "label": "图 16 决策流程", "fit": "contain"},
+     {"path": "paper/figs/p10_3.png", "label": "图 17 代表病例", "fit": "contain"}]},
+
+  {"layout": "references", "title": "参考文献", "refs": [
+     "Beut J, Guisantes E, Jelks GW, Jelks EB, Wong CH. The blending technique: a new approach for tear trough correction. Aesthetic Plast Surg. 2026. doi:10.1007/s00266-026-06119-0",
+     "Hirmand H. Anatomy and nonsurgical correction of the tear trough deformity. Plast Reconstr Surg. 2010;125:699–708.",
+     "Wong CH, Hsieh MKH, Mendelson B. The tear trough ligament: anatomical basis for the tear trough deformity. Plast Reconstr Surg. 2012;129(6):1392–402.",
+     "Wong CH, Mendelson B. Facial soft-tissue spaces and retaining ligaments of the midcheek: defining the premaxillary space. Plast Reconstr Surg. 2013;132(1):49–56."]},
+
+  {"layout": "thanks", "title": "谢谢", "subtitle": "欢迎交流"}
+ ]
+}

@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+.deck_cache/
+work/
+output/
+*_preview/
+.DS_Store
