@@ -14,19 +14,19 @@ import argparse, json, re
 from datetime import datetime
 from pathlib import Path
 
-from PIL import Image, ImageDraw, ImageOps, ExifTags
+from PIL import Image, ImageDraw, ImageFont, ImageOps, ExifTags
 
 IMG = {".jpg", ".jpeg", ".png", ".heic", ".webp", ".tif", ".tiff", ".bmp"}
 VID = {".mp4", ".mov", ".m4v"}
 DOC = {".pdf", ".docx", ".doc", ".txt", ".md", ".xlsx", ".xls", ".csv", ".pptx"}
 
 VIEW = [("front", r"正面|正位|front|frontal|\bF\b|0deg|0°"),
-        ("oblique", r"45|斜|oblique|three.?quarter|3-4"),
-        ("profile", r"侧面|侧位|profile|lateral|90|side"),
+        ("oblique", r"(?<!\d)45(?!\d)|斜|oblique|three.?quarter|3-4"),
+        ("profile", r"侧面|侧位|profile|lateral|(?<!\d)90(?!\d)|side"),
         ("smile", r"笑|smile|dynamic|动态"),
         ("upgaze", r"上视|向上看|upgaze|look.?up"),
         ("closeup", r"特写|局部|close|detail")]
-PHASE = [("before", r"术前|治疗前|before|pre\b|pre[-_]|baseline|基线"),
+PHASE = [("before", r"术前|治疗前|首诊|初诊|before|pre\b|pre[-_]|baseline|基线"),
          ("after", r"术后|治疗后|after|post\b|post[-_]|即刻"),
          ("marking", r"标记|设计|marking|design|plan")]
 SIDE = [("left", r"左|\bL\b|left"), ("right", r"右|\bR\b|right")]
@@ -62,8 +62,25 @@ def file_date(name):
     return None
 
 
+CJK_FONTS = ["/System/Library/Fonts/Hiragino Sans GB.ttc", "/System/Library/Fonts/PingFang.ttc",
+             "/System/Library/Fonts/STHeiti Light.ttc", "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
+             "/usr/share/fonts/noto-cjk/NotoSansCJK-Regular.ttc", "C:/Windows/Fonts/msyh.ttc"]
+
+
+def label_font(size=14):
+    """A font that can draw Chinese filenames; PIL's default font cannot."""
+    for f in CJK_FONTS:
+        if Path(f).exists():
+            try:
+                return ImageFont.truetype(f, size)
+            except Exception:
+                pass
+    return ImageFont.load_default()
+
+
 def contact_sheets(photos, out, per=24, cols=6, tw=300):
     sheets = []
+    font = label_font()
     for s in range(0, len(photos), per):
         chunk = photos[s:s + per]
         th = int(tw * 4 / 3)
@@ -78,7 +95,8 @@ def contact_sheets(photos, out, per=24, cols=6, tw=300):
                 continue
             x, y = (i % cols) * tw, (i // cols) * (th + 34)
             S.paste(im, (x + (tw - im.size[0]) // 2, y + (th - im.size[1]) // 2))
-            d.text((x + 6, y + th + 4), f"#{ph['id']} {Path(ph['path']).name[:34]}", fill="black")
+            d.text((x + 6, y + th + 6), f"#{ph['id']} {Path(ph['path']).parent.name[:12]}/{Path(ph['path']).name[:22]}",
+                   fill="black", font=font)
         p = out / f"contact_sheet_{s // per + 1}.jpg"
         S.save(p, quality=85)
         sheets.append(str(p))

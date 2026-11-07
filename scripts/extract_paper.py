@@ -79,7 +79,7 @@ def main():
         for i, f in enumerate(figs):
             im = Image.open(f).convert("RGB"); im.thumbnail((tw - 8, th - 8))
             x, y = (i % cols) * tw, (i // cols) * (th + 22)
-            S.paste(im, (x + 4, y + 4)); d.text((x + 6, y + th + 3), f.name, fill="black")
+            S.paste(im, (x + 4, y + 4)); d.text((x + 6, y + th + 3), f.name, fill="black")  # ASCII names only
         S.save(out / "figs_index.jpg", quality=85)
     print(f"pages {len(doc)} · figures {len(figs)} · doi {meta['doi']}")
     print(f"→ {out/'paper.md'}\n→ {out/'figs_index.jpg' if figs else '(no raster figures – crop from pages/)'}")

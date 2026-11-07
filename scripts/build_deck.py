@@ -407,6 +407,10 @@ class Deck:
             self.warnings.append(f"slide {self.page}: bullet text may overflow (ends at {cy:.2f}in)")
         return cy
 
+    def floor(self, s):
+        """Bottom edge for photo/figure content; leaves room for a note line when present."""
+        return 6.2 if s.get("note") else BOTTOM
+
     def header(self, slide, s, tn):
         if s.get("title"):
             self.text(slide, ML, 0.52, CW, 0.62, s["title"], s.get("title_size", 28), tn["text"],
@@ -509,7 +513,7 @@ class Deck:
         side = s.get("image_side", "left")
         top = TOP if s.get("subtitle") else 1.55
         cap_h = 0.32 if s.get("caption") else 0
-        iw, ih = CW * ratio, BOTTOM - top - cap_h - 0.05
+        iw, ih = CW * ratio, self.floor(s) - top - cap_h - 0.05
         ix = ML if side == "left" else ML + CW - iw
         img = s.get("image") or {}
         box = self.picture(slide, img, ix, top, iw, ih, fit=(img.get("fit", "contain") if isinstance(img, dict) else "contain"),
@@ -528,7 +532,7 @@ class Deck:
             ty += 0.55
         self.dots(slide, tn, tx, ty, tw, bullets, size, gap=0.26)
         if s.get("note"):
-            self.note(slide, tn, s["note"])
+            self.note(slide, tn, s["note"], 6.35)
 
     def _grid(self, n, cols, x, y, w, h, gap=0.25, label_h=0.3, aspect=None):
         cols = cols or (n if n <= 4 else math.ceil(n / 2))
@@ -553,16 +557,18 @@ class Deck:
         imgs = s.get("images", [])
         top = TOP + 0.1 if s.get("subtitle") else 1.6
         aspect = s.get("aspect")
-        cells = self._grid(len(imgs), s.get("cols"), ML, top, CW, BOTTOM - top, 0.3, 0.38, aspect)
+        cells = self._grid(len(imgs), s.get("cols"), ML, top, CW, self.floor(s) - top, 0.3, 0.38, aspect)
         for im, (x, y, w, h) in zip(imgs, cells):
             box = self.picture(slide, im, x, y, w, h, fit=im.get("fit", "cover") if isinstance(im, dict) else "cover",
                                tn=tn)
             lab = im.get("label") if isinstance(im, dict) else None
             if lab:
-                self.text(slide, x, y + h + 0.07, w, 0.3, lab, 10.5, tn["muted"], tn=tn,
+                lx = x if s.get("label_align") == "center" else box[0]
+                lw = w if s.get("label_align") == "center" else max(box[2], 2.5)
+                self.text(slide, lx, box[1] + box[3] + 0.08, lw, 0.3, lab, 10.5, tn["muted"], tn=tn,
                           align=s.get("label_align", "left"))
         if s.get("note"):
-            self.note(slide, tn, s["note"], 6.45)
+            self.note(slide, tn, s["note"], 6.35)
 
     def L_compare(self, slide, s, tn):
         """Before/after. pairs: [{view, before, after, before_label, after_label}]"""
@@ -580,7 +586,7 @@ class Deck:
         pw = (area_w - gap_pair * (n - 1)) / n
         iw = (pw - gap_in) / 2
         ih = iw / aspect
-        avail = BOTTOM - top - view_h - label_h
+        avail = self.floor(s) - top - view_h - label_h
         if ih > avail:
             ih = avail; iw = ih * aspect; pw = iw * 2 + gap_in
         tot = n * pw + (n - 1) * gap_pair
@@ -606,7 +612,7 @@ class Deck:
             bx = ML + area_w + 0.45
             self.dots(slide, tn, bx, top + 0.35, CW - area_w - 0.45, bullets, s.get("size", 15))
         if s.get("note"):
-            self.note(slide, tn, s["note"], 6.4)
+            self.note(slide, tn, s["note"], 6.35)
 
     def L_journey(self, slide, s, tn):
         """Patient journey photo strip with timeline. steps: [{image, label, note}]"""
@@ -620,7 +626,7 @@ class Deck:
         gap = 0.22
         iw = (CW - gap * (n - 1)) / n
         ih = iw / aspect
-        avail = BOTTOM - top - 0.75 - note_h
+        avail = self.floor(s) - top - 0.75 - note_h
         if ih > avail:
             ih = avail; iw = ih * aspect
         tot = n * iw + (n - 1) * gap
@@ -646,7 +652,7 @@ class Deck:
                 self.text(slide, x + 0.02, ly + 0.5, iw - 0.04, note_h, st["note"], 9.5, tn["muted"],
                           align="center", tn=tn)
         if s.get("note"):
-            self.note(slide, tn, s["note"], 6.45)
+            self.note(slide, tn, s["note"], 6.35)
 
     def L_timeline(self, slide, s, tn):
         """Treatment course without photos. events: [{date, title, text}]"""
@@ -671,7 +677,7 @@ class Deck:
                       shape=MSO_SHAPE.OVAL)
             items = e.get("text") or []
             items = items if isinstance(items, list) else [items]
-            ch_max = BOTTOM - ly - 0.35
+            ch_max = self.floor(s) - ly - 0.35
             need = 0.6 + (est_height(e.get("title", ""), cw - 0.4, 14) if e.get("title") else 0) \
                 + dots_height(items, cw - 0.4, e.get("size", 11.5 if n >= 4 else 12.5), 0.1)
             ch = ch_max if s.get("fill") else min(ch_max, max(need_all, 1.6))
@@ -686,7 +692,7 @@ class Deck:
                 sz = e.get("size", 11.5 if n >= 4 else 12.5)
                 self.dots(slide, tn, x + 0.2, yy, cw - 0.4, items, sz, gap=0.1, max_y=ly + 0.3 + ch)
         if s.get("note"):
-            self.note(slide, tn, s["note"], 6.45)
+            self.note(slide, tn, s["note"], 6.35)
 
     def L_table(self, slide, s, tn):
         self.header(slide, s, tn)
@@ -842,7 +848,7 @@ class Deck:
         imgs = s.get("images", [])
         top = TOP if s.get("subtitle") else 1.5
         img_w = CW * s.get("image_ratio", 0.58 if len(imgs) >= 2 else 0.42)
-        cells = self._grid(len(imgs), len(imgs), ML, top, img_w, BOTTOM - top, 0.18, 0.05, s.get("aspect", 3 / 4))
+        cells = self._grid(len(imgs), len(imgs), ML, top, img_w, self.floor(s) - top, 0.18, 0.05, s.get("aspect", 3 / 4))
         for im, (x, y, w, h) in zip(imgs, cells):
             im = {"path": im} if isinstance(im, str) else dict(im)
             im.setdefault("credit", True)
@@ -862,7 +868,7 @@ class Deck:
         if y > BOTTOM:
             self.warnings.append(f"slide {self.page}: patient facts overflow ({y:.2f}in)")
         if s.get("note"):
-            self.note(slide, tn, s["note"], 6.4)
+            self.note(slide, tn, s["note"], 6.35)
 
     def _chart(self, slide, tn, ch_spec, x, y, w, h):
         ctype = ch_spec.get("type", "bar")
@@ -931,7 +937,7 @@ class Deck:
         bullets = s.get("bullets")
         if imgs:
             iw = CW * s.get("image_ratio", 0.5)
-            cells = self._grid(len(imgs), len(imgs), ML, top, iw, BOTTOM - top, 0.18, 0.05, s.get("aspect", 3 / 4))
+            cells = self._grid(len(imgs), len(imgs), ML, top, iw, self.floor(s) - top, 0.18, 0.05, s.get("aspect", 3 / 4))
             for im, (x, y, w, h) in zip(imgs, cells):
                 im = {"path": im} if isinstance(im, str) else dict(im)
                 im.setdefault("credit", True)
@@ -941,14 +947,14 @@ class Deck:
             cx, cw = ML, CW * 0.6
         else:
             cx, cw = ML + 0.5, CW - 1.0
-        ch_h = BOTTOM - top - (0.5 if s.get("scale_legend") else 0)
+        ch_h = self.floor(s) - top - (0.5 if s.get("scale_legend") else 0)
         self._chart(slide, tn, s.get("chart", {}), cx, top, cw, ch_h)
         if s.get("scale_legend"):
-            self.text(slide, cx, BOTTOM - 0.4, cw, 0.35, s["scale_legend"], 10, tn["muted"], align="center", tn=tn)
+            self.text(slide, cx, self.floor(s) - 0.4, cw, 0.35, s["scale_legend"], 10, tn["muted"], align="center", tn=tn)
         if bullets and not imgs:
             self.dots(slide, tn, ML + CW * 0.6 + 0.4, top + 0.3, CW * 0.4 - 0.4, bullets, s.get("size", 15))
         if s.get("note"):
-            self.note(slide, tn, s["note"], 6.45)
+            self.note(slide, tn, s["note"], 6.35)
 
     def L_plan(self, slide, s, tn):
         """Treatment plan: annotated photos (injection map) + products with site doses.
@@ -957,7 +963,7 @@ class Deck:
         top = TOP if s.get("subtitle") else 1.5
         imgs = s.get("images", [])
         iw = CW * s.get("image_ratio", 0.55)
-        cells = self._grid(len(imgs), len(imgs), ML, top, iw, BOTTOM - top, 0.18, 0.05, s.get("aspect", 3 / 4))
+        cells = self._grid(len(imgs), len(imgs), ML, top, iw, self.floor(s) - top, 0.18, 0.05, s.get("aspect", 3 / 4))
         for im, (x, y, w, h) in zip(imgs, cells):
             im = {"path": im} if isinstance(im, str) else dict(im)
             im.setdefault("credit", True)
@@ -998,7 +1004,7 @@ class Deck:
         if y > BOTTOM:
             self.warnings.append(f"slide {self.page}: plan column overflows ({y:.2f}in)")
         if s.get("note"):
-            self.note(slide, tn, s["note"], 6.45)
+            self.note(slide, tn, s["note"], 6.35)
 
     def L_full_image(self, slide, s, tn):
         img = s.get("image") or {}
